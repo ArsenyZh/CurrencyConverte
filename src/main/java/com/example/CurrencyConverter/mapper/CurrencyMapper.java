@@ -15,14 +15,22 @@ public class CurrencyMapper {
     private CurrencyRepository currencyRepository;
 
     public Currency toCurrency(CurrencyDto currencyDto) {
-        return currencyRepository.findByCode(currencyDto.getCode());
+        Currency currency = new Currency();
+        currency.setCode(currencyDto.getCode());
+        currency.setSign(currencyDto.getSign());
+        currency.setFullName(currencyDto.getFullName());
+
+        return currency;
     }
 
     public List<Currency> toCurrencyList(List<CurrencyDto> currencyDtoList) {
         List<Currency> currencyList = new ArrayList<>();
+        Currency currency = new Currency();
 
         for (CurrencyDto dto : currencyDtoList) {
-            currencyList.add(currencyRepository.findByCode(dto.getCode()));
+            currency.setCode(dto.getCode());
+            currency.setSign(dto.getSign());
+            currency.setFullName(dto.getFullName());
         }
         return currencyList;
     }
