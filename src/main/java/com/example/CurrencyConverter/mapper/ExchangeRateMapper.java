@@ -2,6 +2,7 @@ package com.example.CurrencyConverter.mapper;
 
 import com.example.CurrencyConverter.dto.ExchangeRateDto;
 import com.example.CurrencyConverter.entity.ExchangeRate;
+import com.example.CurrencyConverter.repository.CurrencyRepository;
 import com.example.CurrencyConverter.repository.ExchangeRateRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -13,18 +14,19 @@ import java.util.List;
 @AllArgsConstructor
 public class ExchangeRateMapper {
     private ExchangeRateRepository exchangeRateRepository;
+    private CurrencyRepository currencyRepository;
 
     public ExchangeRate toExchangeRate(ExchangeRateDto exchangeRateDto) {
-        return exchangeRateRepository.findByBaseCurrencyAndTargetCurrency(exchangeRateDto.getBaseCurrencyId(),
-                                                                            exchangeRateDto.getTargetCurrencyId());
+        return exchangeRateRepository.findByBaseCurrencyAndTargetCurrency(currencyRepository.findById(exchangeRateDto.getBaseCurrencyId()).orElse(null),
+                currencyRepository.findById(exchangeRateDto.getTargetCurrencyId()).orElse(null));
     }
 
     public List<ExchangeRate> toExchangeRateList(List<ExchangeRateDto> exchangeRateDtoList) {
         List<ExchangeRate> exchangeRateList = new ArrayList<>();
 
         for (ExchangeRateDto dto : exchangeRateDtoList) {
-            exchangeRateList.add(exchangeRateRepository.findByBaseCurrencyAndTargetCurrency(dto.getBaseCurrencyId(),
-                                                                                            dto.getTargetCurrencyId()));
+            exchangeRateRepository.findByBaseCurrencyAndTargetCurrency(currencyRepository.findById(dto.getBaseCurrencyId()).orElse(null),
+                    currencyRepository.findById(dto.getTargetCurrencyId()).orElse(null));
         }
         return exchangeRateList;
     }
