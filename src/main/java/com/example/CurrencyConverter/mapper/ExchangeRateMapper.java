@@ -17,16 +17,22 @@ public class ExchangeRateMapper {
     private CurrencyRepository currencyRepository;
 
     public ExchangeRate toExchangeRate(ExchangeRateDto exchangeRateDto) {
-        return exchangeRateRepository.findByBaseCurrencyAndTargetCurrency(currencyRepository.findById(exchangeRateDto.getBaseCurrencyId()).orElse(null),
-                currencyRepository.findById(exchangeRateDto.getTargetCurrencyId()).orElse(null));
+        ExchangeRate exchangeRate = new ExchangeRate();
+        exchangeRate.setBaseCurrency(exchangeRateDto.getBaseCurrency());
+        exchangeRate.setTargetCurrency(exchangeRateDto.getTargetCurrency());
+        exchangeRate.setRate(exchangeRateDto.getRate());
+
+        return exchangeRate;
     }
 
     public List<ExchangeRate> toExchangeRateList(List<ExchangeRateDto> exchangeRateDtoList) {
         List<ExchangeRate> exchangeRateList = new ArrayList<>();
+        ExchangeRate exchangeRate = new ExchangeRate();
 
         for (ExchangeRateDto dto : exchangeRateDtoList) {
-            exchangeRateRepository.findByBaseCurrencyAndTargetCurrency(currencyRepository.findById(dto.getBaseCurrencyId()).orElse(null),
-                    currencyRepository.findById(dto.getTargetCurrencyId()).orElse(null));
+            exchangeRate.setBaseCurrency(dto.getBaseCurrency());
+            exchangeRate.setTargetCurrency(dto.getTargetCurrency());
+            exchangeRate.setRate(dto.getRate());
         }
         return exchangeRateList;
     }
@@ -34,10 +40,8 @@ public class ExchangeRateMapper {
     public ExchangeRateDto toExchangeRateDto(ExchangeRate exchangeRate) {
         ExchangeRateDto exchangeRateDto = new ExchangeRateDto();
 
-        exchangeRateDto.setBaseCurrency(exchangeRate.getBaseCurrency().getCode());
-        exchangeRateDto.setTargetCurrency(exchangeRate.getTargetCurrency().getCode());
-        exchangeRateDto.setBaseCurrencyId(exchangeRate.getBaseCurrency().getId());
-        exchangeRateDto.setTargetCurrencyId(exchangeRate.getTargetCurrency().getId());
+        exchangeRateDto.setBaseCurrency(exchangeRate.getBaseCurrency());
+        exchangeRateDto.setTargetCurrency(exchangeRate.getTargetCurrency());
         exchangeRateDto.setRate(exchangeRate.getRate());
 
         return exchangeRateDto;
@@ -48,10 +52,8 @@ public class ExchangeRateMapper {
         ExchangeRateDto exchangeRateDto = new ExchangeRateDto();
 
         for (ExchangeRate exchangeRate : exchangeRateList) {
-            exchangeRateDto.setBaseCurrency(exchangeRate.getBaseCurrency().getCode());
-            exchangeRateDto.setTargetCurrency(exchangeRate.getTargetCurrency().getCode());
-            exchangeRateDto.setBaseCurrencyId(exchangeRate.getBaseCurrency().getId());
-            exchangeRateDto.setTargetCurrencyId(exchangeRate.getTargetCurrency().getId());
+            exchangeRateDto.setBaseCurrency(exchangeRate.getBaseCurrency());
+            exchangeRateDto.setTargetCurrency(exchangeRate.getTargetCurrency());
             exchangeRateDto.setRate(exchangeRate.getRate());
 
             exchangeRateDtoList.add(exchangeRateDto);
