@@ -21,5 +21,5 @@ public class Currency {
     private String fullName;
 
     @Column(name = "sign")
-    private char sign;
+    private String sign;
 }
