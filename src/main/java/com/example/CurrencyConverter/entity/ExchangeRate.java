@@ -13,11 +13,11 @@ public class ExchangeRate {
     @Column(name = "id")
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "baseCurrencyId", referencedColumnName = "id")
     private Currency baseCurrency;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "targetCurrencyId", referencedColumnName = "id")
     private Currency targetCurrency;
 
